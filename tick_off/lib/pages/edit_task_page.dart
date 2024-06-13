@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Add_Screen extends StatefulWidget {
-  const Add_Screen({super.key});
+class Edit_Screen extends StatefulWidget {
+  Edit_Screen({super.key});
 
   @override
-  State<Add_Screen> createState() => _Add_ScreenState();
+  State<Edit_Screen> createState() => _Edit_ScreenState();
 }
 
-class _Add_ScreenState extends State<Add_Screen> {
-  final title = TextEditingController();
-  final subtitle = TextEditingController();
+class _Edit_ScreenState extends State<Edit_Screen> {
+  TextEditingController? title;
+  TextEditingController? subtitle;
 
   FocusNode _focusNode1 = FocusNode();
   FocusNode _focusNode2 = FocusNode();
@@ -92,7 +92,7 @@ class _Add_ScreenState extends State<Add_Screen> {
                 margin: EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    Image.asset('images/${index}.jpg'),
+                    Image.asset('images/${index}.png'),
                   ],
                 ),
               ),
