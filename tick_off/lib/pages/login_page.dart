@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tick_off/components/my_loginbtn.dart';
 import 'package:tick_off/components/my_textfield.dart';
-import 'package:tick_off/components/square_tile.dart';
 import 'package:tick_off/pages/register_page.dart';
 import 'home_page.dart';
 
@@ -123,23 +122,6 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-
-                const SizedBox(height: 25),
-                //Sign in Icons
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //google
-                    SquareTile(ImagePath: 'lib/images/Google.png'),
-
-                    SizedBox(width: 10),
-
-                    //apple
-                    SquareTile(ImagePath: 'lib/images/Apple.png'),
-
-                    SizedBox(width: 10),
-                  ],
                 ),
 
                 const SizedBox(height: 25),
