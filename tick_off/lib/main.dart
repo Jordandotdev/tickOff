@@ -15,13 +15,6 @@ void main() async {
   ));
 }
 
-//     options: const FirebaseOptions(
-//   apiKey: 'AIzaSyCFuyp-ZaN0eSei27umQo7YSV3wLnvi_g8',
-//   projectId: 'tickoff-3f006',
-//   appId: '668605846847',
-//   messagingSenderId: '668605846847',
-// )
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
