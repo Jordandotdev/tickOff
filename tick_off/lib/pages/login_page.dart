@@ -4,9 +4,14 @@ import 'package:tick_off/components/my_textfield.dart';
 import 'package:tick_off/pages/register_page.dart';
 import 'home_page.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -48,7 +53,7 @@ class LoginPage extends StatelessWidget {
                 //welcome back
                 const SizedBox(height: 50),
                 const Text(
-                  'Welcome to Express Coffee!',
+                  'Welcome to Tick Off !',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,
@@ -60,7 +65,7 @@ class LoginPage extends StatelessWidget {
                 //Username TextField
                 MyTextField(
                     controller: usernameController,
-                    hintText: 'Username',
+                    hintText: 'Email',
                     obsecureText: false),
                 const SizedBox(height: 10),
 

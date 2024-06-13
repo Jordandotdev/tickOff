@@ -5,7 +5,9 @@ import 'pages/register_page.dart';
 import 'package:tick_off/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Fire
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomePage(),
         '/signup': (context) => SignUp(),
+        '/login': (context) => LoginPage(),
       },
     );
   }
