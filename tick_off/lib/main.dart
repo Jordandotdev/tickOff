@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tick_off/pages/home_page.dart';
 import 'pages/login_page.dart';
+import 'pages/task_page.dart';
 import 'pages/register_page.dart';
 import 'package:tick_off/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,9 +27,10 @@ class MyApp extends StatelessWidget {
       title: 'Tick Off',
       theme: Provider.of<ThemeProvider>(context).themeData,
       routes: {
-        '/home': (context) => const HomePage(),
+        '/home': (context) => HomePage(),
         '/signup': (context) => SignUp(),
         '/login': (context) => LoginPage(),
+        '/landing': (context) => TaskPage(),
       },
     );
   }
@@ -83,5 +85,14 @@ class _FirebaseCheckState extends State<FirebaseCheck> {
     }
 
     return LoginPage();
+  }
+}
+
+class TaskPage extends StatelessWidget {
+  const TaskPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TaskPage();
   }
 }
