@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tick_off/components/my_loginbtn.dart';
 import 'package:tick_off/components/my_textfield.dart';
 import 'package:tick_off/pages/register_page.dart';
-import 'home_page.dart';
+import 'package:tick_off/pages/home_page.dart';
+import 'package:tick_off/data/auth_data.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,16 +13,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthenticationRemote _authRemote = AuthenticationRemote();
+
   // text editing controllers
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   //sign in function
-  void signIn(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-    );
+  void signIn(BuildContext context) async {
+    try {
+      await _authRemote.login(emailController.text, passwordController.text);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.toString()}')),
+      );
+    }
   }
 
   void signUp(BuildContext context) {
@@ -64,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 //Username TextField
                 MyTextField(
-                    controller: usernameController,
+                    controller: emailController,
                     hintText: 'Email',
                     obsecureText: false),
                 const SizedBox(height: 10),

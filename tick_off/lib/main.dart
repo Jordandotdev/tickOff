@@ -4,15 +4,23 @@ import 'pages/login_page.dart';
 import 'pages/register_page.dart';
 import 'package:tick_off/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Fire
+  await Firebase.initializeApp();
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),
   ));
 }
+
+//     options: const FirebaseOptions(
+//   apiKey: 'AIzaSyCFuyp-ZaN0eSei27umQo7YSV3wLnvi_g8',
+//   projectId: 'tickoff-3f006',
+//   appId: '668605846847',
+//   messagingSenderId: '668605846847',
+// )
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: const FirebaseCheck(),
       title: 'Tick Off',
       theme: Provider.of<ThemeProvider>(context).themeData,
       routes: {
@@ -30,5 +38,57 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
       },
     );
+  }
+}
+
+class FirebaseCheck extends StatefulWidget {
+  const FirebaseCheck({super.key});
+
+  @override
+  _FirebaseCheckState createState() => _FirebaseCheckState();
+}
+
+class _FirebaseCheckState extends State<FirebaseCheck> {
+  bool _initialized = false;
+  bool _error = false;
+
+  void initializeFlutterFire() async {
+    try {
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeFlutterFire();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_error) {
+      return Scaffold(
+        body: Center(
+          child: Text("Failed to connect to Firebase"),
+        ),
+      );
+    }
+
+    if (!_initialized) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return LoginPage();
   }
 }

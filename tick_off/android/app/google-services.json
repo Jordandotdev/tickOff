@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "668605846847",
+    "project_id": "tickoff-3f006",
+    "storage_bucket": "tickoff-3f006.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668605846847:android:ef6fe4ac01388a97042f8a",
+        "android_client_info": {
+          "package_name": "com.example.tick_off"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqgN41XPTHIAbN63MhKSUcgwMlieN5cTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
