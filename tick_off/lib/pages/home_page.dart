@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tick_off/components/my_taskcard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home Page'),
       ),
       body: Center(
-        child: Text('This is a blank page for now.'),
+        child: TaskCard(),
       ),
     );
   }
