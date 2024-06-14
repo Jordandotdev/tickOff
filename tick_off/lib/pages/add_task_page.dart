@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tick_off/data/firestore.dart';
 
 class Add_Screen extends StatefulWidget {
   const Add_Screen({super.key});
@@ -9,7 +10,7 @@ class Add_Screen extends StatefulWidget {
 
 class _Add_ScreenState extends State<Add_Screen> {
   final title = TextEditingController();
-  final subtitle = TextEditingController();
+  final description = TextEditingController();
 
   FocusNode _focusNode1 = FocusNode();
   FocusNode _focusNode2 = FocusNode();
@@ -24,7 +25,7 @@ class _Add_ScreenState extends State<Add_Screen> {
           children: [
             title_widgets(),
             SizedBox(height: 20),
-            subtite_wedgite(),
+            Description_widget(),
             SizedBox(height: 20),
             imagess(),
             SizedBox(height: 20),
@@ -45,6 +46,8 @@ class _Add_ScreenState extends State<Add_Screen> {
             minimumSize: Size(170, 48),
           ),
           onPressed: () {
+            Firestore_Datasource()
+                .AddNote(description.text, title.text, indexx);
             Navigator.pop(context);
           },
           child: Text('add task'),
@@ -138,7 +141,7 @@ class _Add_ScreenState extends State<Add_Screen> {
     );
   }
 
-  Padding subtite_wedgite() {
+  Padding Description_widget() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Container(
@@ -148,12 +151,12 @@ class _Add_ScreenState extends State<Add_Screen> {
         ),
         child: TextField(
           maxLines: 3,
-          controller: subtitle,
+          controller: description,
           focusNode: _focusNode2,
           style: TextStyle(fontSize: 18, color: Colors.black),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            hintText: 'subtitle',
+            hintText: 'description',
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(

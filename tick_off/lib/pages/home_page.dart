@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tick_off/pages/add_task_page.dart';
 import 'package:tick_off/components/my_taskcard.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +28,11 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Visibility(
         visible: show,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Add_Screen(),
+            ));
+          },
           backgroundColor: Colors.blue.shade400,
           child: Icon(Icons.add),
         ),
