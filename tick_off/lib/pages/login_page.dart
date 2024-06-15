@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tick_off/components/my_loginbtn.dart';
 import 'package:tick_off/components/my_textfield.dart';
+import 'package:tick_off/pages/provider_page.dart';
 import 'package:tick_off/pages/register_page.dart';
 import 'package:tick_off/pages/home_page.dart';
 import 'package:tick_off/data/auth_data.dart';
@@ -25,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       await _authRemote.login(emailController.text, passwordController.text);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const ProviderPage()),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

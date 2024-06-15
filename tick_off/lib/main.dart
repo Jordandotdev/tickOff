@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tick_off/pages/about_page.dart';
 import 'package:tick_off/pages/home_page.dart';
+import 'package:tick_off/pages/settings_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
 import 'package:tick_off/theme/theme_provider.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
       theme: Provider.of<ThemeProvider>(context).themeData,
       routes: {
         '/home': (context) => HomePage(),
+        '/about': (context) => AboutPage(),
+        '/settings': (context) => SettingsPage(),
         '/signup': (context) => SignUp(),
         '/login': (context) => LoginPage(),
         '/landing': (context) => TaskPage(),

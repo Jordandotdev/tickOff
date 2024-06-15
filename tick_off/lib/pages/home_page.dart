@@ -15,14 +15,6 @@ class HomePage extends StatefulWidget {
 bool show = true;
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  void navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,18 +30,6 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.blue.shade400,
           child: Icon(Icons.add),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Tasks'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.question_mark), label: 'About'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue.shade400,
-        onTap: navigateBottomBar,
       ),
       body: SafeArea(
           child: NotificationListener<UserScrollNotification>(
