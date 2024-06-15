@@ -72,10 +72,19 @@ class Firestore_Datasource {
           .collection('notes')
           .doc(uuid)
           .update({'isDon': isDone});
+
+      // Delete the document after successful update
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notes')
+          .doc(uuid)
+          .delete();
+
       return true;
     } catch (e) {
       print(e);
-      return true;
+      return false; // Return false to indicate failure
     }
   }
 }
