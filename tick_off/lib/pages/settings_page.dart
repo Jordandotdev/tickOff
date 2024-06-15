@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tick_off/components/my_stylebox.dart';
+import 'package:tick_off/pages/camera_page.dart';
 import 'package:tick_off/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -33,10 +34,18 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             const SizedBox(height: 60),
             //account widget
-            const StyleBox(
-              heading: 'Account',
-              description: 'Settings for your account',
-              trailingContent: Icon(Icons.person, size: 70), // Icon
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CameraPage()),
+                );
+              },
+              child: const StyleBox(
+                heading: 'Account',
+                description: 'Settings for your account',
+                trailingContent: Icon(Icons.person, size: 70), // Icon
+              ),
             ),
 
             const SizedBox(height: 10),

@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
             stream: Firestore_Datasource().stream(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }
               final noteslist = Firestore_Datasource().getNotes(snapshot);
               return ListView.builder(

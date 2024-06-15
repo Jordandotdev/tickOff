@@ -42,7 +42,9 @@ dependencies:
   msh_checkbox: ^1.1.1 
   uuid: ^3.0.6
   image_picker: ^1.0.3
+  permission_handler: ^10.4.3
   firebase_storage: ^11.6.9
+
 
 dev_dependencies:
   flutter_test:
