@@ -12,11 +12,11 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
-  bool isDon = false;
+  bool isDone = false;
   @override
   void initState() {
     super.initState();
-    isDon = widget._note.isDone; // Initialize isDone here
+    isDone = widget._note.isDone; // Initialize isDone here
   }
 
   @override
