@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tick_off/pages/about_page.dart';
 import 'package:tick_off/pages/home_page.dart';
-import 'package:tick_off/pages/login_page.dart';
+import 'package:tick_off/pages/logout_page.dart';
 import 'package:tick_off/pages/settings_page.dart';
 
 class ProviderPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ProviderPageState extends State<ProviderPage> {
     HomePage(),
     AboutPage(),
     SettingsPage(),
-    LoginPage(),
+    LogoutPage(),
   ];
 
   @override
