@@ -70,7 +70,7 @@ class _Add_ScreenState extends State<Add_Screen> {
     return Container(
       height: 180,
       child: ListView.builder(
-        itemCount: 4,
+        itemCount: 1,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -95,7 +95,7 @@ class _Add_ScreenState extends State<Add_Screen> {
                 margin: EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    Image.asset('images/${index}.jpg'),
+                    Image.asset('images/${index}.png'),
                   ],
                 ),
               ),

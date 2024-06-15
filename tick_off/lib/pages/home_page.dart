@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tick_off/data/firestore.dart';
 import 'package:tick_off/pages/add_task_page.dart';
 import 'package:tick_off/components/my_taskcard.dart';
 
@@ -65,12 +67,21 @@ class _HomePageState extends State<HomePage> {
           }
           return true;
         },
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return TaskCard();
-          },
-          itemCount: 10,
-        ),
+        child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore_Datasource().stream(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+              final noteslist = Firestore_Datasource().getNotes(snapshot);
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final note = noteslist[index];
+                  return TaskCard(note);
+                },
+                itemCount: noteslist.length,
+              );
+            }),
       )),
     );
   }

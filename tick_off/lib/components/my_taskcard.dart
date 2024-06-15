@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tick_off/model/task_module.dart';
+import 'package:tick_off/pages/edit_task_page.dart';
 
 class TaskCard extends StatefulWidget {
-  const TaskCard({Key? key}) : super(key: key);
+  Note _note;
+  TaskCard(this._note, {super.key});
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -48,7 +51,7 @@ class _TaskCardState extends State<TaskCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'title',
+                          widget._note.title,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -63,7 +66,7 @@ class _TaskCardState extends State<TaskCard> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      'read more',
+                      widget._note.description,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -94,7 +97,7 @@ class _TaskCardState extends State<TaskCard> {
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    'time',
+                                    widget._note.time,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -107,36 +110,43 @@ class _TaskCardState extends State<TaskCard> {
                             ),
                           ),
                           SizedBox(width: 10),
-                          Container(
-                            width: 90,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.background,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Edit_Screen(),
+                              ));
+                            },
+                            child: Container(
+                              width: 90,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.background,
+                                borderRadius: BorderRadius.circular(18),
                               ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'edit',
-                                    style: TextStyle(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit,
                                       color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                      size: 16,
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                ],
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'edit',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -160,7 +170,8 @@ class _TaskCardState extends State<TaskCard> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
         image: DecorationImage(
-            image: AssetImage('images/1.jpg'), fit: BoxFit.cover),
+            image: AssetImage('images/${widget._note.image}.png'),
+            fit: BoxFit.cover),
       ),
     );
   }
