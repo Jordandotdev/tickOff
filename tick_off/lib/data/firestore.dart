@@ -48,7 +48,7 @@ class Firestore_Datasource {
       final notelist = snapshot.data.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         return Note(data['id'], data['description'], data['title'],
-            data['time'], data['image']);
+            data['time'], data['image'], data['isDone']);
       }).toList();
       return notelist;
     } catch (e) {
@@ -62,5 +62,20 @@ class Firestore_Datasource {
         .doc(_auth.currentUser!.uid)
         .collection('notes')
         .snapshots();
+  }
+
+  Future<bool> isdone(String uuid, bool isDone) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notes')
+          .doc(uuid)
+          .update({'isDon': isDone});
+      return true;
+    } catch (e) {
+      print(e);
+      return true;
+    }
   }
 }

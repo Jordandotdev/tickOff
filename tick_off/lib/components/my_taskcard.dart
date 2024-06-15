@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tick_off/data/firestore.dart';
 import 'package:tick_off/model/task_module.dart';
 import 'package:tick_off/pages/edit_task_page.dart';
 
@@ -10,9 +11,14 @@ class TaskCard extends StatefulWidget {
   State<TaskCard> createState() => _TaskCardState();
 }
 
-bool isDone = false;
-
 class _TaskCardState extends State<TaskCard> {
+  bool isDon = false;
+  @override
+  void initState() {
+    super.initState();
+    isDon = widget._note.isDone; // Initialize isDone here
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,12 +62,15 @@ class _TaskCardState extends State<TaskCard> {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Checkbox(
-                            value: isDone,
-                            onChanged: (value) {
-                              setState(() {
-                                isDone = !isDone;
-                              });
-                            })
+                          value: isDone,
+                          onChanged: (value) {
+                            setState(() {
+                              isDone = !isDone;
+                            });
+                            Firestore_Datasource()
+                                .isdone(widget._note.id, isDone);
+                          },
+                        )
                       ],
                     ),
                     SizedBox(height: 5),
