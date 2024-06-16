@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tick_off/data/firestore.dart';
 import 'package:tick_off/model/task_module.dart';
 import 'package:tick_off/pages/edit_task_page.dart';
+import 'package:expandable/expandable.dart';
 
 class TaskCard extends StatefulWidget {
-  Note _note;
-  TaskCard(this._note, {super.key});
+  final Note _note;
+  TaskCard(this._note, {Key? key}) : super(key: key);
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -13,174 +14,189 @@ class TaskCard extends StatefulWidget {
 
 class _TaskCardState extends State<TaskCard> {
   bool isDone = false;
+
   @override
   void initState() {
     super.initState();
-    isDone = widget._note.isDone; // Initialize isDone here
+    isDone = widget._note.isDone;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: Container(
-        width: double.infinity,
-        height: 140,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            children: [
-              //image
-              Image(),
-
-              SizedBox(width: 20),
-
-              //title and subtitle
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget._note.title,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Checkbox(
-                          value: isDone,
-                          onChanged: (value) {
-                            setState(() {
-                              isDone = !isDone;
-                            });
-                            Firestore_Datasource()
-                                .isdone(widget._note.id, isDone);
-                          },
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      widget._note.description,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.blue.shade400),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 90,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.background,
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.access_time,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    widget._note.time,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Edit_Screen(),
-                              ));
-                            },
-                            child: Container(
-                              width: 90,
-                              height: 28,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.background,
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'edit',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+    return ExpandablePanel(
+      collapsed: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: buildCardContent(isCollapsed: true),
+      ),
+      expanded: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: buildCardContent(isCollapsed: false),
       ),
     );
   }
 
-  Container Image() {
+  Widget buildCardContent({required bool isCollapsed}) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildImage(),
+          SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        widget._note.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Checkbox(
+                      value: isDone,
+                      onChanged: (value) {
+                        setState(() {
+                          isDone = value ?? false;
+                        });
+                        Firestore_Datasource().isdone(widget._note.id, isDone);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Text(
+                  widget._note.description,
+                  maxLines: isCollapsed ? 1 : null,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.blue.shade400,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    buildTimeContainer(),
+                    SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Edit_Screen(),
+                        ));
+                      },
+                      child: buildEditContainer(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildImage() {
     return Container(
       height: 130,
       width: 100,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
-        image: DecorationImage(
-            image: AssetImage('images/${widget._note.image}.png'),
-            fit: BoxFit.cover),
+        image: widget._note.image != null
+            ? DecorationImage(
+                image: AssetImage('images/${widget._note.image}.png'),
+                fit: BoxFit.cover,
+              )
+            : null,
+      ),
+    );
+  }
+
+  Container buildTimeContainer() {
+    return Container(
+      width: 90,
+      height: 28,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Row(
+          children: [
+            Icon(
+              Icons.access_time,
+              color: Colors.white,
+              size: 16,
+            ),
+            SizedBox(width: 10),
+            Text(
+              widget._note.time,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container buildEditContainer() {
+    return Container(
+      width: 90,
+      height: 28,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Row(
+          children: [
+            Icon(
+              Icons.edit,
+              color: Colors.white,
+              size: 16,
+            ),
+            SizedBox(width: 10),
+            Text(
+              'edit',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

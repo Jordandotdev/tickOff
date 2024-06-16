@@ -11,30 +11,28 @@ class _CameraPageState extends State<CameraPage> {
   XFile? _image;
   final ImagePicker _picker = ImagePicker();
 
+  // In camera_page.dart
+
   Future<void> _pickImage() async {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = pickedFile;
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      Navigator.pop(context, pickedFile); // Navigate back with the picked file
+    } else {
+      print('No image selected.');
+    }
   }
 
   Future<void> _takeImage() async {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.camera);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = pickedFile;
-      } else {
-        print('No image taken.');
-      }
-    });
+    if (pickedFile != null) {
+      Navigator.pop(context, pickedFile); // Navigate back with the taken file
+    } else {
+      print('No image taken.');
+    }
   }
 
   @override
