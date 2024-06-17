@@ -18,7 +18,7 @@ class _CameraPageState extends State<CameraPage> {
         await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      Navigator.pop(context, pickedFile); // Navigate back with the picked file
+      Navigator.pop(context, pickedFile);
     } else {
       print('No image selected.');
     }
@@ -29,7 +29,7 @@ class _CameraPageState extends State<CameraPage> {
         await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      Navigator.pop(context, pickedFile); // Navigate back with the taken file
+      Navigator.pop(context, pickedFile);
     } else {
       print('No image taken.');
     }

@@ -1,10 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tick_off/components/my_stylebox.dart';
-import 'package:tick_off/pages/camera_page.dart';
 import 'package:tick_off/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:io'; // Import dart:io for File operations
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -14,8 +13,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool isSwitched = true; // Initial state is light mode
-  XFile? _tempImage; // Variable to hold the temporary image
+  bool isSwitched = true;
+  XFile? _tempImage;
 
   @override
   void didChangeDependencies() {
@@ -34,38 +33,46 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    final brightness = Theme.of(context).brightness;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings Page'),
+        title: const Text('Settings Page'),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 60),
-              if (_tempImage != null)
-                Image.file(
-                  File(_tempImage!.path),
-                  width: 300,
-                  height: 200,
-                  fit: BoxFit.cover,
-                ),
               const SizedBox(height: 10),
               // Account widget
               InkWell(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(builder: (context) => CameraPage()),
-                  );
+                    '/camera',
+                    arguments: _tempImage, // Pass the initial image if any
+                  ).then((selectedPhoto) {
+                    if (selectedPhoto != null) {
+                      setState(() {
+                        _tempImage = selectedPhoto as XFile?;
+                      });
+                    }
+                  });
                 },
-                child: const StyleBox(
+                child: StyleBox(
                   heading: 'Account',
                   description: 'Tap here to update your account details',
-                  trailingContent: Icon(Icons.person, size: 70), // Icon
+                  trailingContent: _tempImage != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.file(
+                            File(_tempImage!.path),
+                            width: 70,
+                            height: 70,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const Icon(Icons.person, size: 70), // Icon
                 ),
               ),
               const SizedBox(height: 10),
