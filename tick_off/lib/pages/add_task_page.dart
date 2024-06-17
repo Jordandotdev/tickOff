@@ -70,7 +70,7 @@ class _Add_ScreenState extends State<Add_Screen> {
     return Container(
       height: 180,
       child: ListView.builder(
-        itemCount: 1,
+        itemCount: 3,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return GestureDetector(

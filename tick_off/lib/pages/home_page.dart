@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tick_off/data/firestore.dart';
@@ -12,9 +13,23 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-bool show = true;
-
 class _HomePageState extends State<HomePage> {
+  ConnectivityResult? connectivityResult;
+  bool show = true;
+
+  @override
+  void initState() {
+    super.initState();
+    checkConnectivity();
+  }
+
+  void checkConnectivity() async {
+    var result = await (Connectivity().checkConnectivity());
+    setState(() {
+      connectivityResult = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,46 +38,54 @@ class _HomePageState extends State<HomePage> {
         visible: show,
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Add_Screen(),
-            ));
+            if (connectivityResult == ConnectivityResult.none) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('No internet connection'),
+              ));
+            } else {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Add_Screen(),
+              ));
+            }
           },
           backgroundColor: Colors.blue.shade400,
           child: Icon(Icons.add),
         ),
       ),
       body: SafeArea(
-          child: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification is UserScrollNotification) {
-            if (notification.direction == ScrollDirection.forward) {
-              setState(() {
-                show = true;
-              });
-            } else if (notification.direction == ScrollDirection.reverse) {
-              setState(() {
-                show = false;
-              });
+        child: NotificationListener<UserScrollNotification>(
+          onNotification: (notification) {
+            if (notification is UserScrollNotification) {
+              if (notification.direction == ScrollDirection.forward) {
+                setState(() {
+                  show = true;
+                });
+              } else if (notification.direction == ScrollDirection.reverse) {
+                setState(() {
+                  show = false;
+                });
+              }
             }
-          }
-          return true;
-        },
-        child: StreamBuilder<QuerySnapshot>(
+            return true;
+          },
+          child: StreamBuilder<QuerySnapshot>(
             stream: Firestore_Datasource().stream(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               }
-              final noteslist = Firestore_Datasource().getNotes(snapshot);
+              final notesList = Firestore_Datasource().getNotes(snapshot);
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final note = noteslist[index];
+                  final note = notesList[index];
                   return TaskCard(note);
                 },
-                itemCount: noteslist.length,
+                itemCount: notesList.length,
               );
-            }),
-      )),
+            },
+          ),
+        ),
+      ),
     );
   }
 }
